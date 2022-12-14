@@ -75,8 +75,10 @@ public class TicketDAO {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
             ps.setDouble(1, ticket.getPrice());
-            ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
-            ps.setInt(3,ticket.getId());
+            // CHANGE - Allow update in_time
+            ps.setTimestamp(2, new Timestamp(ticket.getInTime().getTime()));
+            ps.setTimestamp(3, new Timestamp(ticket.getOutTime().getTime()));
+            ps.setInt(4,ticket.getId());
             ps.execute();
             return true;
         }catch (Exception ex){
@@ -85,5 +87,27 @@ public class TicketDAO {
             dataBaseConfig.closeConnection(con);
         }
         return false;
+    }
+
+    // CHANGE - Add new method to count how many times a user came for the discount feature
+    public Integer getNbTicket(String vehicleRegNumber) {
+        Connection con = null;
+        Integer nbTicket = null;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.COUNT_TICKET);
+            ps.setString(1,vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                nbTicket = rs.getInt(1);
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        }catch (Exception ex){
+            logger.error("Error counting number tickets",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+            return nbTicket;
+        }
     }
 }
