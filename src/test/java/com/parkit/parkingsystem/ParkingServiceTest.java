@@ -30,6 +30,7 @@ public class ParkingServiceTest {
     @Mock
     private static TicketDAO ticketDAO;
 
+    // CHANGE - New unit test
     @Test
     public void testProcessIncomingVehicle() {
         try {
@@ -59,6 +60,7 @@ public class ParkingServiceTest {
 
     }
 
+    // CHANGE - Update this test
     @Test
     public void processExitingVehicleTest(){
         try {
@@ -87,6 +89,8 @@ public class ParkingServiceTest {
         }
     }
 
+    // CHANGE - New unit tests
+    
     @Test
     public void processExitingVehicleTestUnableUpdate(){
         try {

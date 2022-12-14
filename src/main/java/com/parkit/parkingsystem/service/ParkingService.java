@@ -32,6 +32,7 @@ public class ParkingService {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
+                // CHANGE - For discount feature
                 Ticket t = ticketDAO.getTicket(vehicleRegNumber);
                 if(t !=null ) {
                     System.out.println("Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
@@ -104,6 +105,7 @@ public class ParkingService {
     public void processExitingVehicle() {
         try{
             String vehicleRegNumber = getVehichleRegNumber();
+            // CHANGE - For discount feature
             boolean discount = false;
             if(ticketDAO.getNbTicket(vehicleRegNumber) > 1) {
                 discount = true;
@@ -111,7 +113,7 @@ public class ParkingService {
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             Date outTime = new Date();
             ticket.setOutTime(outTime);
-            fareCalculatorService.calculateFare(ticket, discount);
+            fareCalculatorService.calculateFare(ticket, discount); // CHANGE - For discount feature
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);

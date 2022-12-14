@@ -124,6 +124,8 @@ public class FareCalculatorServiceTest {
         assertEquals( (24 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
     }
 
+    // CHANGE - New unit tests - 30 free and discount features
+
     @Test
     public void calculateFareCarWithLessThan30minutesParkingTime(){
         Date inTime = new Date();
